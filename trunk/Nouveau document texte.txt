@@ -1,1 +1,56 @@
-helo wassim
+#include <stdlib.h>
+#include <stdio.h>
+#include <SDL.h>
+
+void pause();
+
+int main(int argc, char *argv[])
+{
+    SDL_Surface *ecran = NULL, *imageDeFond = NULL, *wizz= NULL;
+    SDL_Rect positionFond, positionwizz;
+
+    positionFond.x = 0;
+    positionFond.y = 0;
+    positionwizz.x = 40;
+    positionwizz.y = 400;
+
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_WM_SetIcon(SDL_LoadBMP("iconeoie.bmp"), NULL);
+
+    ecran = SDL_SetVideoMode(600, 480, 32, SDL_HWSURFACE);
+    SDL_WM_SetCaption("Chargement d'images en SDL", NULL);
+
+    imageDeFond = SDL_LoadBMP("1.bmp");
+    SDL_BlitSurface(imageDeFond, NULL, ecran, &positionFond);
+
+    /* Chargement et blittage de wizz sur la scène */
+    wizz = SDL_LoadBMP("wizz.bmp");
+SDL_SetColorKey(wizz, SDL_SRCCOLORKEY, SDL_MapRGB(wizz->format, 0, 0, 255));
+/* Transparence Alpha moyenne (128) : */
+SDL_SetAlpha(wizz, SDL_SRCALPHA, 255);
+SDL_BlitSurface(wizz, NULL, ecran, &positionwizz);
+    SDL_Flip(ecran);
+    pause();
+
+    SDL_FreeSurface(imageDeFond);
+    SDL_FreeSurface(wizz);
+    SDL_Quit();
+
+    return EXIT_SUCCESS;
+}
+void pause()
+{
+    int continuer = 1;
+    SDL_Event event;
+
+    while (continuer)
+    {
+        SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                continuer = 0;
+        }
+    }
+}
