@@ -1,0 +1,125 @@
+
+#include <stdio.h>
+#include <SDL/SDL.h>
+int main(int argc, char *argv[])
+{
+    SDL_Surface *ecran = NULL, *imageDeFond = NULL,*menu11=NULL,*menu22=NULL,*menu33=NULL,*image=NULL,*im1=NULL,*im2=NULL;
+    SDL_Rect positionFond;
+    int continuer=1,i=0,j=0;
+    positionFond.x = 0;
+    positionFond.y = 0;
+    SDL_Event event;
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_WM_SetIcon(SDL_LoadBMP("iconeoie.bmp"), NULL);
+    ecran = SDL_SetVideoMode(960, 720, 32, SDL_HWSURFACE);
+    SDL_WM_SetCaption("Chargement d'images en SDL", NULL);
+    /* Chargement d'une image Bitmap dans une surface */
+    imageDeFond = SDL_LoadBMP("final.bmp");
+       im1=SDL_LoadBMP("pion.bmp");
+    if(im1 == NULL)
+    {
+        printf("erreur chargement de pion.bmp\n");
+        return (1);
+    }
+       im2=SDL_LoadBMP("pio.bmp");
+    if(im2 == NULL)
+    {
+        printf("erreur chargement de menu11.bmp\n");
+        return (1);
+    }
+    menu11=SDL_LoadBMP("menu11.bmp");
+    if(menu11 == NULL)
+    {
+        printf("erreur chargement de menu11.bmp\n");
+        return (1);
+    }
+    menu22=SDL_LoadBMP("menu22.bmp");
+     if(menu22 == NULL)
+    {
+        printf("erreur chargement de menu22.bmp\n");
+        return (2);
+    }
+    menu33=SDL_LoadBMP("menu33.bmp");
+     if(menu33 == NULL)
+    {
+        printf("erreur chargement de menu33.bmp\n");
+        return (3);
+    }
+   image=SDL_LoadBMP("mini.bmp");
+     if(image == NULL)
+    {
+        printf("erreur chargement de menu22.bmp\n");
+        return (4);
+    }
+    SDL_Rect dest;
+    dest.x=150;
+    dest.y=550;
+    SDL_Rect dect;
+    dect.x=190;
+    dect.y=550;
+
+
+
+    /* On blitte par-dessus l'écran */
+    /*SDL_BlitSurface(imageDeFond, NULL, ecran, &positionFond);
+    SDL_Flip(ecran);*/
+
+    while (continuer)
+    {
+        while(SDL_PollEvent(&event))
+        {
+            switch(event.type)
+            {
+            case SDL_QUIT:
+                continuer = 0;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE: /* Appui sur la touche Echap, on
+arrête le programme */
+                    continuer = 0;
+                    break;
+                case SDLK_DOWN:
+                    i++;
+                    break;
+                case SDLK_UP:
+                    i--;
+                    break;
+                case SDLK_SPACE:
+                    j=1;
+                }
+                break;
+            }
+        }
+        if(i==0)
+        {
+            SDL_BlitSurface(menu11,NULL,ecran,NULL);
+        }
+        if(i==1)
+        {
+            SDL_BlitSurface(menu22,NULL,ecran,NULL);
+        }
+
+        if(i==2)
+        {
+            SDL_BlitSurface(menu33,NULL,ecran,NULL);
+        }
+        if(j==1 && i==0)
+           { SDL_BlitSurface(image,NULL,ecran,NULL);
+           SDL_BlitSurface(im1,NULL,ecran,&dest);
+           SDL_BlitSurface(im2,NULL,ecran,&dect);
+        }
+        SDL_Flip(ecran);
+
+        i=i%3;
+
+
+    }
+    SDL_FreeSurface(imageDeFond); /* On libère la surface */
+    SDL_Quit();
+    return EXIT_SUCCESS;
+}
+
+
+
