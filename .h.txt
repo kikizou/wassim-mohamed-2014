@@ -1,0 +1,14 @@
+#ifndef FCT_H_INCLUDED
+#define FCT_H_INCLUDED
+
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+#include <time.h>
+#include"fct.h"
+
+int jouer(int etat,SDL_Surface *ecran,int *de1,int *de2);
+void deplacer(int etat,int nbrjoueurs,SDL_Surface *ecran,SDL_Surface *jouer[6],int compt[3]);
+void rules (int comp[3],int* ini,int i,int de1,int de2,int *nv,int aut[3],int nbrjoueurs);
+
+#endif // FCT_H_INCLUDED

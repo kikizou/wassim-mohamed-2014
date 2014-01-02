@@ -1,0 +1,546 @@
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+#include <time.h>
+#include"fct.h"
+int jouer(int etat,SDL_Surface *ecran,int *de1,int *de2)
+{
+    int somme = 0, MIN = 1, MAX = 6 ;
+    float coeff1,coeff2;
+    SDL_Rect positionde1,positionde2;
+    if (etat==1)
+    {
+                coeff1=1;
+                coeff2=1;
+    }
+    else
+    {
+                coeff1=0.4685;
+                coeff2=0.625;
+    }
+
+        positionde1.x=621*coeff1;
+        positionde2.x=773*coeff1;
+        positionde1.y=357*coeff2;
+        positionde2.y=357*coeff2;
+
+
+
+    SDL_Surface *imde1 = NULL, *imde2=NULL;
+
+
+       srand(time(NULL));
+        *de1= (rand () % (MAX - MIN + 1)) + MIN;
+        *de2= (rand () % (MAX - MIN + 1)) + MIN;
+
+
+    if(etat==1)
+    {
+        switch(*de1)
+        {
+        case 1:
+        imde1=IMG_Load("de1.png");
+        break;
+        case 2:
+        imde1=IMG_Load("de2.gif");
+        break;
+        case 3:
+        imde1=IMG_Load("de3.gif");
+        break;
+        case 4:
+        imde1=IMG_Load("de4.png");
+        break;
+        case 5:
+        imde1=IMG_Load("de5.png");
+        break;
+        case 6:
+        imde1=IMG_Load("de6.png");
+        break;
+        }
+         switch(*de2)
+        {
+        case 1:
+        imde2=IMG_Load("de1.png");
+        break;
+        case 2:
+        imde2=IMG_Load("de2.gif");
+        break;
+        case 3:
+        imde2=IMG_Load("de3.gif");
+        break;
+        case 4:
+        imde2=IMG_Load("de4.png");
+        break;
+        case 5:
+        imde2=IMG_Load("de5.png");
+        break;
+        case 6:
+        imde2=IMG_Load("de6.png");
+        break;
+        }
+
+    }
+    else
+    {
+         switch(*de1)
+        {
+        case 1:
+        imde1=IMG_Load("de10.png");
+        break;
+        case 2:
+        imde1=IMG_Load("de20.gif");
+        break;
+        case 3:
+        imde1=IMG_Load("de30.gif");
+        break;
+        case 4:
+        imde1=IMG_Load("de40.png");
+        break;
+        case 5:
+        imde1=IMG_Load("de50.png");
+        break;
+        case 6:
+        imde1=IMG_Load("de60.png");
+        break;
+        }
+         switch(*de2)
+        {
+        case 1:
+        imde2=IMG_Load("de10.png");
+        break;
+        case 2:
+        imde2=IMG_Load("de20.gif");
+        break;
+        case 3:
+        imde2=IMG_Load("de30.gif");
+        break;
+        case 4:
+        imde2=IMG_Load("de40.png");
+        break;
+        case 5:
+        imde2=IMG_Load("de50.png");
+        break;
+        case 6:
+        imde2=IMG_Load("de60.png");
+        break;
+        }
+    }
+
+
+    SDL_BlitSurface(imde1, NULL, ecran, &positionde1);
+    SDL_BlitSurface(imde2, NULL, ecran, &positionde2);
+    SDL_Flip(ecran);
+    somme=(*de1)+(*de2);
+    return somme ;
+}
+void deplacer(int etat,int nbrjoueurs, SDL_Surface *ecran,SDL_Surface *jouer[6],int compt[3])
+{
+    SDL_Rect pos;
+    int ini,i;
+    float coeff1,coeff2;
+
+
+    if (etat==0)
+    {
+        ini=3;
+        coeff1=0.4685;
+        coeff2=0.625;
+    }
+    else
+    {
+        ini=0;
+        coeff1=1;
+        coeff2=1;
+
+    }
+    for (i=0;i<nbrjoueurs;i++)
+   {
+       switch(compt[i])
+        {
+        case 1:
+        pos.x=291*coeff1;
+        pos.y=601*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 2:
+        pos.x=369*coeff1;
+        pos.y=635*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 3:
+        pos.x=469*coeff1;
+        pos.y=653*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 4:
+        pos.x=572*coeff1;
+        pos.y=659*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 5:
+        pos.x=682*coeff1;
+        pos.y=661*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 6:
+        pos.x=784*coeff1;
+        pos.y=658*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 7:
+        pos.x=892*coeff1;
+        pos.y=653*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 8:
+        pos.x=1008*coeff1;
+        pos.y=620*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 9:
+        pos.x=1089*coeff1;
+        pos.y=576*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 10:
+        pos.x=1148*coeff1;
+        pos.y=509*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 11:
+        pos.x=1188*coeff1;
+        pos.y=418*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 12:
+        pos.x=1195*coeff1;
+        pos.y=345*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 13:
+        pos.x=1180*coeff1;
+        pos.y=266*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 14:
+        pos.x=1150*coeff1;
+        pos.y=191*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 15:
+        pos.x=1077*coeff1;
+        pos.y=131*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 16:
+        pos.x=998*coeff1;
+        pos.y=54*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 17:
+        pos.x=907*coeff1;
+        pos.y=41*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 18:
+        pos.x=805*coeff1;
+        pos.y=36*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 19:
+        pos.x=704*coeff1;
+        pos.y=36*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 20:
+        pos.x=596*coeff1;
+        pos.y=35*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 21:
+        pos.x=492*coeff1;
+        pos.y=44*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 22:
+        pos.x=396*coeff1;
+        pos.y=72*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 23:
+        pos.x=294*coeff1;
+        pos.y=138*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 24:
+        pos.x=265*coeff1;
+        pos.y=194*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 25:
+        pos.x=214*coeff1;
+        pos.y=277*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 26:
+        pos.x=202*coeff1;
+        pos.y=369*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 27:
+        pos.x=239*coeff1;
+        pos.y=456*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 28:
+        pos.x=332*coeff1;
+        pos.y=512*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 29:
+        pos.x=418*coeff1;
+        pos.y=545*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 30:
+        pos.x=503*coeff1;
+        pos.y=566*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 31:
+        pos.x=604*coeff1;
+        pos.y=564*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 32:
+        pos.x=704*coeff1;
+        pos.y=566*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 33:
+        pos.x=803*coeff1;
+        pos.y=563*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 34:
+        pos.x=907*coeff1;
+        pos.y=558*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 35:
+        pos.x=1004*coeff1;
+        pos.y=520*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 36:
+        pos.x=1064*coeff1;
+        pos.y=436*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 37:
+        pos.x=1086*coeff1;
+        pos.y=361*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 38:
+        pos.x=1083*coeff1;
+        pos.y=282*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 39:
+        pos.x=1043*coeff1;
+        pos.y=211*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 40:
+        pos.x=955*coeff1;
+        pos.y=149*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 41:
+        pos.x=855*coeff1;
+        pos.y=145*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 42:
+        pos.x=753*coeff1;
+        pos.y=146*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 43:
+        pos.x=654*coeff1;
+        pos.y=144*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 44:
+        pos.x=556*coeff1;
+        pos.y=148*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 45:
+        pos.x=454*coeff1;
+        pos.y=165*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 46:
+        pos.x=378*coeff1;
+        pos.y=207*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 47:
+        pos.x=328*coeff1;
+        pos.y=282*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 48:
+        pos.x=328*coeff1;
+        pos.y=371*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 49:
+        pos.x=401*coeff1;
+        pos.y=431*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 50:
+        pos.x=482*coeff1;
+        pos.y=459*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 51:
+        pos.x=571*coeff1;
+        pos.y=467*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 52:
+        pos.x=666*coeff1;
+        pos.y=461*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 53:
+        pos.x=762*coeff1;
+        pos.y=458*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 54:
+        pos.x=863*coeff1;
+        pos.y=462*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 55:
+        pos.x=946*coeff1;
+        pos.y=421*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 56:
+        pos.x=977*coeff1;
+        pos.y=365*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 57:
+        pos.x=968*coeff1;
+        pos.y=291*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 58:
+        pos.x=887*coeff1;
+        pos.y=248*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 59:
+        pos.x=788*coeff1;
+        pos.y=243*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 60:
+        pos.x=686*coeff1;
+        pos.y=241*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 61:
+        pos.x=593*coeff1;
+        pos.y=247*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 62:
+        pos.x=485*coeff1;
+        pos.y=268*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        break;
+        case 63:
+        pos.x=447*coeff1;
+        pos.y=331*coeff2;
+        SDL_BlitSurface(jouer[i+ini], NULL, ecran, &pos);
+        }
+   }
+
+
+}
+
+void rules (int compt[3],int* ini,int i,int de1,int de2,int *nv,int aut[3],int nbrjoueurs)
+{
+
+    if (*ini==1)
+    {
+        if (compt[i]==9)
+        {
+            if ((de1==3)||(de2==3))
+                {
+                    compt[i]=26;
+
+                }
+            else
+
+                if((de1==4)||(de2==4))
+                {
+                compt[i]=51;
+
+                }
+        }
+    }
+
+        switch(compt[i])
+    {
+    case 7:
+        compt[i]=34;
+        break;
+    case 23:
+        compt[i]=46;
+        break;
+    case 31:
+        compt[i]=5;
+        break;
+    case 58:
+        compt[i]=41;
+        break;
+    case 42:
+        aut[i]=-2;
+        break;
+    case 53:
+        compt[i]=0;
+        break;
+    case 9:
+        *nv = 1;
+        break;
+    case 18:
+        *nv =1;
+    case 27:
+        *nv =1;
+        break;
+    case 36:
+     *nv =1;
+        break;
+    case 45:
+        *nv =1;
+        break;
+    case 54 :
+        *nv =1;
+        break;
+
+    }
+
+    if ((*ini==1)&&(i==nbrjoueurs-1))
+    {
+        *ini=2;
+    }
+}
