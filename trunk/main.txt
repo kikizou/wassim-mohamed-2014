@@ -1,0 +1,322 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include"fct.h"
+#include"SDL.h"
+SDL_Surface *ecran = NULL, *tapis = NULL, *menu=NULL, *quitter=NULL,*quitter1=NULL,*jouerr=NULL,*jouer1=NULL,*option=NULL,*option1=NULL,*aide=NULL,*aide1=NULL,*apropo=NULL,*apropo1=NULL;
+SDL_Surface *joueur[6]={NULL};
+SDL_Rect positiontapis,quit,aprop,aid,jou,opt;
+int compt[3]={0} ;
+int aut[3]={0};
+int nbrjoueurs =3;
+int etat,i ;
+
+
+    void pleinecran()
+    {
+
+            ecran = SDL_SetVideoMode(1366, 768, 32, SDL_HWSURFACE |SDL_DOUBLEBUF|SDL_FULLSCREEN| SDL_ANYFORMAT);
+            tapis=IMG_Load("plein.ecran.png");
+            SDL_BlitSurface(tapis, NULL, ecran, &positiontapis);
+            SDL_Flip(ecran);
+            etat=1;
+    }
+    void modenormal()
+    {
+            ecran = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE |SDL_DOUBLEBUF);
+            tapis=IMG_Load("tapis.normal.png");
+            SDL_BlitSurface(tapis, NULL, ecran, &positiontapis);
+            SDL_Flip(ecran);
+            etat=0;
+    }
+    void initi()
+    {
+    joueur[0]=IMG_Load("pion1.jpg");
+    SDL_SetColorKey(joueur[0], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[0]->format,0,0,0));
+    joueur[1]=IMG_Load("pion2.jpg");
+    SDL_SetColorKey(joueur[1], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[1]->format,0,0,0));
+    joueur[2]=IMG_Load("pion3.jpg");
+    SDL_SetColorKey(joueur[2], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[2]->format,0,0,0));
+    joueur[3]=IMG_Load("pion4.jpg");
+    SDL_SetColorKey(joueur[3], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[3]->format,0,0,0));
+    joueur[4]=IMG_Load("pion5.jpg");
+    SDL_SetColorKey(joueur[4], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[4]->format,0,0,0));
+    joueur[5]=IMG_Load("pion6.jpg");
+    SDL_SetColorKey(joueur[5], SDL_SRCCOLORKEY, SDL_MapRGB(joueur[5]->format,0,0,0));
+
+        positiontapis.x=0;
+        positiontapis.y=0;
+
+
+        quit.x=0;
+        quit.y=210;
+
+        jou.x=0;
+        jou.y=10;
+
+        aprop.x=0;
+        aprop.y=110;
+
+        opt.x=0;
+        opt.y=60;
+
+        aid.x=0;
+        aid.y=160;
+
+         quitter=SDL_LoadBMP("quitter1.bmp");
+        SDL_SetColorKey(quitter, SDL_SRCCOLORKEY, SDL_MapRGB(quitter->format,0,0,0));
+
+        quitter1=SDL_LoadBMP("quitter2.bmp");
+        SDL_SetColorKey(quitter1, SDL_SRCCOLORKEY, SDL_MapRGB(quitter1->format,0,0,0));
+
+        jouerr=SDL_LoadBMP("jouer1.bmp");
+        SDL_SetColorKey(jouerr, SDL_SRCCOLORKEY, SDL_MapRGB(jouerr->format,0,0,0));
+
+        jouer1=SDL_LoadBMP("jouer2.bmp");
+        SDL_SetColorKey(jouer1, SDL_SRCCOLORKEY, SDL_MapRGB(jouer1->format,0,0,0));
+
+        apropo=SDL_LoadBMP("aprop1.bmp");
+        SDL_SetColorKey(apropo, SDL_SRCCOLORKEY, SDL_MapRGB(apropo->format,0,0,0));
+
+        apropo1=SDL_LoadBMP("aprop2.bmp");
+        SDL_SetColorKey(apropo1, SDL_SRCCOLORKEY, SDL_MapRGB(apropo1->format,0,0,0));
+
+        aide=SDL_LoadBMP("aide1.bmp");
+        SDL_SetColorKey(aide, SDL_SRCCOLORKEY, SDL_MapRGB(aide->format,0,0,0));
+
+        aide1=SDL_LoadBMP("aide2.bmp");
+        SDL_SetColorKey(aide1, SDL_SRCCOLORKEY, SDL_MapRGB(aide1->format,0,0,0));
+
+
+        option=SDL_LoadBMP("options1.bmp");
+        SDL_SetColorKey(option, SDL_SRCCOLORKEY, SDL_MapRGB(option->format,0,0,0));
+
+        option1=SDL_LoadBMP("options2.bmp");
+        SDL_SetColorKey(option1, SDL_SRCCOLORKEY, SDL_MapRGB(option1->format,0,0,0));
+    }
+    void affmenu()
+    {
+        ecran = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE |SDL_DOUBLEBUF);
+        menu=IMG_Load("menunew.png");
+        SDL_BlitSurface(menu, NULL, ecran, &positiontapis);
+
+        SDL_BlitSurface(quitter, NULL, ecran, &quit);
+        SDL_BlitSurface(aide, NULL, ecran, &aid);
+        SDL_BlitSurface(option, NULL, ecran, &opt);
+        SDL_BlitSurface(jouerr, NULL, ecran, &jou);
+        SDL_BlitSurface(apropo, NULL, ecran, &aprop);
+
+        SDL_Flip(ecran);
+    }
+
+
+int main(int argc, char* argv[])
+{
+    int de1,de2;
+    int ini=1 ,nv=0;
+
+
+    int continuer0 = 1,continuer1 = 1;
+    SDL_Event event,event2;
+    SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
+
+    SDL_WM_SetCaption("jeu de l'oie !", NULL);
+
+    initi();
+    affmenu();
+
+
+        while (continuer0)
+        {
+        SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+        case SDL_MOUSEMOTION:
+           if(((event.motion.x<200)&&(event.motion.y<60)&&(event.motion.x>0)&&(event.motion.y>10)))
+           {
+
+                SDL_BlitSurface(quitter, NULL, ecran, &quit);
+                SDL_BlitSurface(aide, NULL, ecran, &aid);
+                SDL_BlitSurface(option, NULL, ecran, &opt);
+                SDL_BlitSurface(apropo, NULL, ecran, &aprop);
+
+                SDL_BlitSurface(jouer1, NULL, ecran, &jou);
+                SDL_Flip(ecran);
+
+
+           }
+
+            else
+                if(((event.motion.x<200)&&(event.motion.y<110)&&(event.motion.x>0)&&(event.motion.y>60)))
+            {
+                SDL_BlitSurface(quitter, NULL, ecran, &quit);
+                SDL_BlitSurface(aide, NULL, ecran, &aid);
+                SDL_BlitSurface(jouerr, NULL, ecran, &jou);
+                SDL_BlitSurface(apropo, NULL, ecran, &aprop);
+                SDL_BlitSurface(option1, NULL, ecran, &opt);
+                SDL_Flip(ecran);
+            }
+            else
+                if(((event.motion.x<200)&&(event.motion.y<160)&&(event.motion.x>0)&&(event.motion.y>110)))
+            {
+                SDL_BlitSurface(quitter, NULL, ecran, &quit);
+                SDL_BlitSurface(aide, NULL, ecran, &aid);
+                SDL_BlitSurface(jouerr, NULL, ecran, &jou);
+                SDL_BlitSurface(option, NULL, ecran, &opt);
+
+                SDL_BlitSurface(apropo1, NULL, ecran, &aprop);
+                SDL_Flip(ecran);
+            }
+            else
+                if(((event.motion.x<200)&&(event.motion.y<210)&&(event.motion.x>0)&&(event.motion.y>160)))
+            {
+                SDL_BlitSurface(quitter, NULL, ecran, &quit);
+                SDL_BlitSurface(option, NULL, ecran, &opt);
+                SDL_BlitSurface(jouerr, NULL, ecran, &jou);
+                SDL_BlitSurface(apropo, NULL, ecran, &aprop);
+                SDL_BlitSurface(aide1, NULL, ecran, &aid);
+                SDL_Flip(ecran);
+            }
+            else
+                if(((event.motion.x<200)&&(event.motion.y<270)&&(event.motion.x>0)&&(event.motion.y>210)))
+            {
+                SDL_BlitSurface(aide, NULL, ecran, &aid);
+                SDL_BlitSurface(aide, NULL, ecran, &aid);
+                SDL_BlitSurface(jouerr, NULL, ecran, &jou);
+                SDL_BlitSurface(apropo, NULL, ecran, &aprop);
+                SDL_BlitSurface(quitter1, NULL, ecran, &quit);
+                SDL_Flip(ecran);
+            }
+            else
+            {
+
+               affmenu();
+               SDL_Flip(ecran);
+            }
+            break;
+
+
+        case SDL_QUIT:
+        continuer0= 0;
+        break;
+        case SDL_MOUSEBUTTONUP:
+        if ((event.button.y<60)&&(event.button.y>10)&&(event.button.x>0)&&(event.button.button == SDL_BUTTON_LEFT)&&(event.button.x<200))
+        {
+            modenormal();
+
+            while(continuer1)
+            {
+                for (i=0;i<nbrjoueurs;i++)
+                    {
+
+
+                    SDL_WaitEvent(&event2);
+                    switch(event2.type)
+                    {
+                        case SDL_QUIT:
+                        continuer1 = 0;
+                        continuer0 =0;
+                        i=4;
+                        break;
+                        case SDL_MOUSEBUTTONUP:
+                            if(aut[i]==0)
+                            {
+                                compt[i]=compt[i]+jouer(etat,ecran,&de1,&de2);
+                                rules (compt,&ini,i,de1,de2,&nv,aut,nbrjoueurs);
+                                SDL_Delay(1500);
+                                SDL_BlitSurface(tapis, NULL, ecran, &positiontapis);
+                                deplacer(etat,nbrjoueurs,ecran,joueur,compt);
+                                if (nv==1)
+                                {
+                                    i=i-1;
+                                    nv=0;
+                                }
+                            }
+                            else
+                            {
+                                aut[i]=aut[i]+1;
+                            }
+
+                        SDL_Flip(ecran);
+                        break;
+                        case SDL_KEYDOWN:
+                        switch(event2.key.keysym.sym)
+                        {
+
+                    case SDLK_RETURN:
+                        if(etat==0)
+                        {
+                            pleinecran();
+                            deplacer(etat,nbrjoueurs,ecran,joueur,compt);
+                            SDL_Flip(ecran);
+                            i=i-1;
+
+                        }
+                        else
+                            i=i-1;
+
+                        break;
+                    case SDLK_ESCAPE:
+                        if(etat==1)
+                        {
+                            modenormal();
+                            deplacer( etat,nbrjoueurs,ecran,joueur,compt);
+                            SDL_Flip(ecran);
+                            i=i-1;
+
+                        }
+                        else
+                            i=i-1;
+
+                        break;
+                        }
+
+                        break;
+                        default:
+                        i=i-1;
+                        break;
+
+                    }
+                }
+            }
+        }
+
+
+
+
+        break;
+
+        }
+        }
+
+
+
+
+
+
+
+        for(i=0;i<6;i++)
+    {
+        SDL_FreeSurface(joueur[i]);
+    }
+    SDL_FreeSurface(tapis);
+    SDL_FreeSurface(menu);
+    SDL_FreeSurface(quitter);
+    SDL_FreeSurface(quitter1);
+    SDL_FreeSurface(option);
+    SDL_FreeSurface(option1);
+    SDL_FreeSurface(aide);
+    SDL_FreeSurface(aide1);
+    SDL_FreeSurface(apropo);
+    SDL_FreeSurface(apropo1);
+    SDL_FreeSurface(jouer1);
+    SDL_FreeSurface(jouerr);
+    SDL_Quit();
+    TTF_Quit();
+    return EXIT_SUCCESS;
+}
+
+
+
+
+
